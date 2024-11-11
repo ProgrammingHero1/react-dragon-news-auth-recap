@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const Register = () => {
   const { createNewUser, setUser } = useContext(AuthContext);
-
+  const [error, setError] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
     //get form data
@@ -13,7 +13,6 @@ const Register = () => {
     const email = form.get("email");
     const photo = form.get("photo");
     const password = form.get("password");
-    console.log({ name, email, photo, password });
 
     createNewUser(email, password)
       .then((result) => {
@@ -21,10 +20,9 @@ const Register = () => {
         setUser(user);
         console.log(user);
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch((err) => {
+        setError({ ...error, register: err.code });
+
         // ..
       });
   };
@@ -47,6 +45,7 @@ const Register = () => {
               required
             />
           </div>
+
           <div className="form-control">
             <label className="label">
               <span className="label-text">Photo URL</span>
@@ -90,6 +89,8 @@ const Register = () => {
               </a>
             </label>
           </div>
+          {error.register && <label className="label">{error.register}</label>}
+
           <div className="form-control mt-6">
             <button className="btn btn-neutral rounded-none">Register</button>
           </div>
