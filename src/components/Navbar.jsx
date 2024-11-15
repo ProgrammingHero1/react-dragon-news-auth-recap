@@ -11,6 +11,7 @@ const Navbar = () => {
         <Link to="/">Home</Link>
         <Link to="/career">Career</Link>
         <Link to="/about">About</Link>
+        <Link to="/dev">Dev Information</Link>
       </div>
       <div className="login flex gap-2 items-center">
         <div className=" ">
